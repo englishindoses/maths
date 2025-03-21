@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Games Hub</title>
+    <style>
+        :root {
+            --primary-color: #6200ea;
+            --secondary-color: #03dac6;
+            --background-color: #f5f5f7;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #ff4081;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #9c27b0);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .math-symbols {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.15);
+            z-index: 0;
+        }
+        
+        .symbol-1 {
+            top: 15%;
+            left: 10%;
+            transform: rotate(-15deg);
+        }
+        
+        .symbol-2 {
+            top: 25%;
+            right: 15%;
+            transform: rotate(20deg);
+        }
+        
+        .symbol-3 {
+            bottom: 20%;
+            left: 20%;
+            transform: rotate(10deg);
+        }
+        
+        .symbol-4 {
+            bottom: 25%;
+            right: 10%;
+            transform: rotate(-10deg);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 40px 0 20px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .intro {
+            background-color: var(--card-color);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin: 40px 0;
+        }
+        
+        .intro p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .game-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .game-card {
+            background-color: var(--card-color);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .game-card-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--secondary-color), #00bcd4);
+            color: white;
+        }
+        
+        .game-title {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        
+        .game-topic {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .game-card-body {
+            padding: 20px;
+        }
+        
+        .game-description {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+        
+        .game-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .game-link:hover {
+            background-color: #7c4dff;
+        }
+        
+        .coming-soon {
+            background-color: var(--card-color);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 2px dashed #d0d0d0;
+        }
+        
+        .coming-soon h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 30px 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .intro {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="math-symbols symbol-1">∑ π √ ∫</div>
+        <div class="math-symbols symbol-2">≠ ∞ θ ∂</div>
+        <div class="math-symbols symbol-3">÷ × ± ∀</div>
+        <div class="math-symbols symbol-4">∇ Δ ∝ ⊥</div>
+        
+        <h1>Math Games Hub</h1>
+        <p class="tagline">Making math practice fun and engaging</p>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>Welcome to Math Games Hub</h2>
+            <p>Explore our collection of interactive math games designed to make learning and practicing mathematics more enjoyable. These games help build essential math skills while providing an engaging and fun experience.</p>
+            <p>Whether you're looking to strengthen your algebra skills, practice arithmetic, or challenge yourself with problem-solving, we have games that will help you improve while having fun.</p>
+            <p>Select any game below to start playing and developing your math skills!</p>
+        </section>
+        
+        <h2>Available Games</h2>
+        <div class="game-list">
+            <div class="game-card">
+                <div class="game-card-header">
+                    <h3 class="game-title">Bread Bakery Challenge</h3>
+                    <p class="game-topic">Algebra • Collecting Like Terms</p>
+                </div>
+                <div class="game-card-body">
+                    <p class="game-description">Bake delicious bread by correctly simplifying algebraic expressions and collecting like terms.</p>
+                    <a href="bread-bakery.html" class="game-link">Play Now</a>
+                </div>
+            </div>
+            
+            <div class="coming-soon">
+                <h3>More Games Coming Soon!</h3>
+                <p>We're working on adding more exciting math games across various topics. Check back soon for updates!</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Math Games Hub © 2025 • Helping students enjoy mathematics</p>
+    </footer>
+</body>
+</html>
