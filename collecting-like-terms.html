@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bread Shop Matching Game</title>
+    <title>Like Terms Matching Game</title>
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -45,7 +45,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .expression {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             width: 40%;
         }
@@ -131,16 +131,26 @@
                 opacity: 0;
             }
         }
+        .bakery-display {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .bakery-display img {
+            max-width: 100%;
+            height: 120px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🍞 Bread Shop Matching Game 🍞</h1>
+        <h1>🍞 Like Terms Matching Game 🍞</h1>
         
         <div class="instructions">
             <h2>Instructions</h2>
-            <p>Welcome to the Bread Shop! Help the baker collect like terms to prepare the perfect bread recipes. Match each expression on the left with its simplified form on the right.</p>
+            <p>Match each expression on the left with its simplified form on the right by collecting like terms.</p>
             <p>For example: <strong>2a + 3a</strong> simplifies to <strong>5a</strong></p>
+            <p>For every correct match, you'll earn a bread ingredient to bake with!</p>
         </div>
         
         <div class="game-area" id="gameArea">
@@ -151,23 +161,17 @@
         <button id="newQuestionsButton">New Questions</button>
         
         <div class="score-display" id="scoreDisplay"></div>
+        
+        <div class="bakery-display" id="bakeryDisplay">
+            <!-- Bread images will appear here based on score -->
+        </div>
     </div>
     
     <div class="bread-animations" id="breadAnimations"></div>
     
     <script>
         // Constants for generating random questions
-        const variables = ['a', 'b', 'c', 'x', 'y'];
-        const themes = [
-            'loaves of bread',
-            'bread rolls',
-            'slices of toast',
-            'bread sticks',
-            'baguettes',
-            'muffins',
-            'croissants',
-            'bread crumbs'
-        ];
+        const variables = ['a', 'b', 'c', 'x', 'y', 'z', 'm', 'n', 'p'];
         
         // Function to generate a random integer between min and max (inclusive)
         function getRandomInt(min, max) {
@@ -177,69 +181,63 @@
         // Function to generate a random question
         function generateQuestion() {
             const variable = variables[Math.floor(Math.random() * variables.length)];
-            const theme = themes[Math.floor(Math.random() * themes.length)];
             
-            // Generate coefficients
-            const a = getRandomInt(-10, 10);
-            const b = getRandomInt(-10, 10);
-            const c = getRandomInt(-10, 10);
+            // Generate coefficients (avoiding zeros)
+            let a = getRandomInt(-10, 10);
+            let b = getRandomInt(-10, 10);
+            let c = getRandomInt(-10, 10);
             
-            // Avoid zero coefficients
-            const aCoef = a === 0 ? 1 : a;
-            const bCoef = b === 0 ? 2 : b;
-            const cCoef = c === 0 ? -1 : c;
+            // Ensure not all coefficients are zero
+            if (a === 0 && b === 0 && c === 0) {
+                a = 1;
+                b = 2;
+                c = -3;
+            }
+            
+            // Fix any remaining zeros
+            if (a === 0) a = getRandomInt(1, 5);
+            if (b === 0) b = getRandomInt(-5, -1);
+            if (c === 0) c = getRandomInt(1, 5);
             
             // Generate expression with like terms
             let expressionParts = [];
             
             // Add first term
-            if (aCoef === 1) expressionParts.push(`${variable}`);
-            else if (aCoef === -1) expressionParts.push(`-${variable}`);
-            else expressionParts.push(`${aCoef}${variable}`);
+            if (a === 1) expressionParts.push(`${variable}`);
+            else if (a === -1) expressionParts.push(`-${variable}`);
+            else expressionParts.push(`${a}${variable}`);
             
             // Add second term
-            if (bCoef > 0) expressionParts.push(`+ ${bCoef}`);
-            else expressionParts.push(`- ${Math.abs(bCoef)}`);
+            if (b === 1) expressionParts.push(`+ ${variable}`);
+            else if (b === -1) expressionParts.push(`- ${variable}`);
+            else if (b > 0) expressionParts.push(`+ ${b}${variable}`);
+            else expressionParts.push(`- ${Math.abs(b)}${variable}`);
             
             // Add third term
-            if (cCoef === 1) expressionParts.push(`+ ${variable}`);
-            else if (cCoef === -1) expressionParts.push(`- ${variable}`);
-            else if (cCoef > 0) expressionParts.push(`+ ${cCoef}${variable}`);
-            else expressionParts.push(`- ${Math.abs(cCoef)}${variable}`);
+            if (c === 1) expressionParts.push(`+ ${variable}`);
+            else if (c === -1) expressionParts.push(`- ${variable}`);
+            else if (c > 0) expressionParts.push(`+ ${c}${variable}`);
+            else expressionParts.push(`- ${Math.abs(c)}${variable}`);
             
             const expression = expressionParts.join(' ');
             
             // Calculate the simplified result
-            const variableCoefficient = aCoef + cCoef;
-            const constantTerm = bCoef;
+            const sum = a + b + c;
             
-            let simplifiedParts = [];
-            
-            // Add variable term if not zero
-            if (variableCoefficient !== 0) {
-                if (variableCoefficient === 1) simplifiedParts.push(`${variable}`);
-                else if (variableCoefficient === -1) simplifiedParts.push(`-${variable}`);
-                else simplifiedParts.push(`${variableCoefficient}${variable}`);
+            let simplifiedExpression;
+            if (sum === 0) {
+                simplifiedExpression = "0";
+            } else if (sum === 1) {
+                simplifiedExpression = variable;
+            } else if (sum === -1) {
+                simplifiedExpression = `-${variable}`;
+            } else {
+                simplifiedExpression = `${sum}${variable}`;
             }
-            
-            // Add constant term if not zero
-            if (constantTerm !== 0) {
-                if (constantTerm > 0 && simplifiedParts.length > 0) simplifiedParts.push(`+ ${constantTerm}`);
-                else if (constantTerm > 0) simplifiedParts.push(`${constantTerm}`);
-                else if (simplifiedParts.length > 0) simplifiedParts.push(`- ${Math.abs(constantTerm)}`);
-                else simplifiedParts.push(`${constantTerm}`);
-            }
-            
-            // Handle case where result is 0
-            if (simplifiedParts.length === 0) {
-                simplifiedParts.push('0');
-            }
-            
-            const simplifiedExpression = simplifiedParts.join(' ');
             
             return {
-                expression: `${expression} ${theme}`,
-                simplified: `${simplifiedExpression} ${theme}`,
+                expression: expression,
+                simplified: simplifiedExpression,
                 answer: simplifiedExpression
             };
         }
@@ -328,10 +326,7 @@
                 const selectedValue = select.value;
                 const resultDiv = document.getElementById(`result-${index}`);
                 
-                // Extract the algebraic expression part without the theme
-                const selectedExpression = selectedValue.split(' ')[0];
-                
-                if (selectedValue && selectedExpression === correctAnswer) {
+                if (selectedValue && selectedValue === correctAnswer) {
                     resultDiv.textContent = '✓';
                     resultDiv.className = 'result correct';
                     score++;
@@ -348,12 +343,73 @@
             const scoreDisplay = document.getElementById('scoreDisplay');
             scoreDisplay.textContent = `Score: ${score} out of 5`;
             
+            // Update bakery display based on score
+            updateBakeryDisplay(score);
+            
             // Show celebration if all correct
             if (score === 5) {
                 celebrateSuccess();
             }
             
             return score;
+        }
+        
+        // Bread ingredients emoji
+        const breadIngredients = [
+            { name: 'Flour', emoji: '🌾' },
+            { name: 'Water', emoji: '💧' },
+            { name: 'Yeast', emoji: '🧪' },
+            { name: 'Salt', emoji: '🧂' },
+            { name: 'Butter', emoji: '🧈' }
+        ];
+        
+        // Function to update bakery display
+        function updateBakeryDisplay(score) {
+            const bakeryDisplay = document.getElementById('bakeryDisplay');
+            bakeryDisplay.innerHTML = '';
+            
+            // Show message based on score
+            let message = '';
+            
+            if (score === 0) {
+                message = "Let's collect some ingredients to start baking!";
+            } else {
+                message = "You've collected:";
+                
+                // Add ingredient emojis based on score
+                const ingredientsDiv = document.createElement('div');
+                ingredientsDiv.style.fontSize = '30px';
+                ingredientsDiv.style.margin = '15px 0';
+                
+                for (let i = 0; i < score; i++) {
+                    const ingredientSpan = document.createElement('span');
+                    ingredientSpan.textContent = breadIngredients[i].emoji;
+                    ingredientSpan.style.marginRight = '10px';
+                    ingredientSpan.title = breadIngredients[i].name;
+                    ingredientsDiv.appendChild(ingredientSpan);
+                }
+                
+                bakeryDisplay.appendChild(ingredientsDiv);
+                
+                if (score < 5) {
+                    message += ` Need ${5 - score} more ingredients to bake bread!`;
+                } else {
+                    message = "Congratulations! You have all ingredients to bake delicious bread! 🍞";
+                }
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = message;
+            bakeryDisplay.appendChild(messageDiv);
+            
+            // Show bread if all ingredients collected
+            if (score === 5) {
+                const breadDiv = document.createElement('div');
+                breadDiv.style.fontSize = '50px';
+                breadDiv.style.margin = '15px 0';
+                breadDiv.textContent = '🍞';
+                bakeryDisplay.appendChild(breadDiv);
+            }
         }
         
         // Function to celebrate success
@@ -392,6 +448,7 @@
         // Initialize the game
         let currentQuestions = generateQuestions(5);
         createGameInterface(currentQuestions);
+        updateBakeryDisplay(0);
         
         // Event listeners
         document.getElementById('checkButton').addEventListener('click', () => {
@@ -402,6 +459,7 @@
             currentQuestions = generateQuestions(5);
             createGameInterface(currentQuestions);
             document.getElementById('scoreDisplay').textContent = '';
+            updateBakeryDisplay(0);
         });
     </script>
 </body>
